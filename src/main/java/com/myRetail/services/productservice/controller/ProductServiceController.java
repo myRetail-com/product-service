@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myRetail.services.productservice.exception.ProductNotFoundException;
-import com.myRetail.services.productservice.model.Product;
+import com.myRetail.services.productservice.model.Price;
+import com.myRetail.services.productservice.model.resp.ProductResp;
 import com.myRetail.services.productservice.service.ProductDetailsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +24,9 @@ public class ProductServiceController {
 	ProductDetailsService productDetailsService;
 
 	@GetMapping(value = "/products/{id}")
-	public Product getProductDetailsbyId(@PathVariable(name = "id") Long id) throws Exception {
+	public ProductResp getProductDetailsbyId(@PathVariable(name = "id") Long id) throws Exception {
 		log.info("Product Id received " + id);
-		Product productDetails = productDetailsService.getProductDetailsbyId(id);
+		ProductResp productDetails = productDetailsService.getProductDetailsbyId(id);
 		if (productDetails == null) {
 			StringBuffer errorMessage = new StringBuffer();
 			errorMessage.append("Product details are not found for id: ").append(id);
@@ -37,9 +38,9 @@ public class ProductServiceController {
 
 	@PutMapping(value = "/products/{id}")
 	public ResponseEntity<Object> updateProductDetailsbyId(@PathVariable(name = "id") Long id,
-			@RequestBody Product product) throws Exception {
-		productDetailsService.updateProductDetailsbyId(id, product);
-		log.info("@@@ Traverse the logs " + id +product);
+			@RequestBody Price price) throws Exception {
+		productDetailsService.updateProductDetailsbyId(id, price);
+		log.info("@@@ Traverse the logs " + id + price);
 		return new ResponseEntity<>("Product is updated successsfully", HttpStatus.OK);
 	}
 }
